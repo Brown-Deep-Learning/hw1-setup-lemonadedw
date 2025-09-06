@@ -2,6 +2,8 @@
 These are the classed you need to implement. Read the tutorial in the Section 3 - Python Review and follow the instructions in it to
 implement the classes below. 
 """
+
+
 class Square:
     """
     Square class:
@@ -12,17 +14,22 @@ class Square:
     Returns:
         None
     """
-    def __init__(self):
-        pass
+    name: str
+    length: int
+
+    def __init__(self, name, length) -> None:
+        self.name = name
+        self.length = length
 
 
 class Multiplier:
     """
-    Multiplier class
+    Multiplier class2
     Args:
         None
     """
-    def __call__(self):
+
+    def __call__(self, num1: int, num2: int) -> int:
         """
         Implement the __call__ method here
         Args:
@@ -32,42 +39,45 @@ class Multiplier:
         Returns:
             result (int): The result of the multiplication
         """
-        pass
+        return num1 * num2
 
 
 class LoggingTape:
     """
     LoggingTape class to record the logs
     """
+
     def __init__(self):
         """
         Initialize variables
         """
-        self.logs = ...
+        self.logs = []
 
     def __enter__(self):
         """
         Called when entering the context
         """
-        pass
+        Logger.logging_tape = self
+        return self
 
     def __exit__(self, *args):
         """
         Called when exiting the context
         """
-        pass
+        Logger.logging_tape = None
 
     def add_to_log(self, new_log):
         """
         Add a new log to the logs
         """
-        pass
+        self.logs.append(new_log)
 
     def print_logs(self):
         """
         Print the logs
         """
-        for log in self.logs: print(log)
+        for log in self.logs:
+            print(log)
 
 
 class Logger:
@@ -76,6 +86,12 @@ class Logger:
     """
     # Define the logging_tape here
     logging_tape: LoggingTape | None = None
+
+    def __init__(self):
+        """
+        Initialize variables
+        """
+        self.logging_tape = None
 
 
 class Car(Logger):
@@ -95,14 +111,14 @@ if __name__ == "__main__":
     assert multiplier(5, 10) == 50
 
     # Create a logging tape object
-    with LoggingTape() as tape: #runs LoggingTape's __enter__()
-        #Logger.logging_tape is now defined as tape (from line 1)!
+    with LoggingTape() as tape:  # runs LoggingTape's __enter__()
+        # Logger.logging_tape is now defined as tape (from line 1)!
         tape.add_to_log("Hi!")
-    #runs LoggingTape's __exit__()
-    #Now Logger.logging_tape is defined as None
+    # runs LoggingTape's __exit__()
+    # Now Logger.logging_tape is defined as None
     tape.print_logs()
 
-    # Create a car object
+    # # Create a car object
     car = Car()
     with LoggingTape() as tape:
         car.travel(5)
